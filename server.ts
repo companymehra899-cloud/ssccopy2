@@ -1,5 +1,6 @@
 import express from 'express';
 import path from 'path';
+import fs from 'fs';
 import cors from 'cors';
 import { GoogleGenAI } from '@google/genai';
 import dotenv from 'dotenv';
@@ -482,14 +483,30 @@ Given a prompt or notification snippet, output a clean JSON object representing 
 Always set "postDate" to "${todayFormatted}" and "postedDate" to "${todayISO}".
 Return ONLY valid JSON.`;
 
-      const response = await ai.models.generateContent({
-        model: 'gemini-3.8-flash',
-        contents: [
-          { role: 'user', parts: [{ text: `${systemInstruction}\n\nParse/generate for this prompt: "${prompt}"` }] }
-        ]
-      });
+      let retries = 3;
+      let response;
 
-      const text = response.text || '';
+      while (retries > 0) {
+        try {
+          response = await ai.models.generateContent({
+            model: 'gemini-3.8-flash',
+            contents: [
+              { role: 'user', parts: [{ text: `${systemInstruction}\n\nParse/generate for this prompt: "${prompt}"` }] }
+            ]
+          });
+          break;
+        } catch (error: any) {
+          if ((error.status === 503 || error.message?.includes('503')) && retries > 1) {
+            retries--;
+            console.warn(`Gemini API 503, retrying in 2 seconds. Retries left: ${retries}`);
+            await new Promise((resolve) => setTimeout(resolve, 2000));
+            continue;
+          }
+          throw error;
+        }
+      }
+
+      const text = response?.text || '';
       const cleanJsonText = text.replace(/```json/gi, '').replace(/```/g, '').trim();
       const parsedData = JSON.parse(cleanJsonText);
 
@@ -502,14 +519,18 @@ Return ONLY valid JSON.`;
     }
   });
 
-  // Serve frontend in dev / prod
-  if (process.env.NODE_ENV === 'production') {
-    const distPath = path.join(process.cwd(), 'dist');
+  // Serve frontend in dev / prod with automatic dist detection
+  const distPath = path.join(process.cwd(), 'dist');
+  const indexHtmlPath = path.join(distPath, 'index.html');
+
+  if (process.env.NODE_ENV === 'production' || fs.existsSync(indexHtmlPath)) {
+    console.log(`Serving static production files from ${distPath}`);
     app.use(express.static(distPath));
     app.get('*', (req, res) => {
-      res.sendFile(path.join(distPath, 'index.html'));
+      res.sendFile(indexHtmlPath);
     });
   } else {
+    console.log('Starting Vite middleware for development mode');
     const { createServer: createViteServer } = await import('vite');
     const vite = await createViteServer({
       server: { middlewareMode: true },

@@ -1,6 +1,6 @@
 {
   "name": "Sarkari Portal",
-  "description": "India's No. 1 Job, Admit Card, Result, Syllabus & Exam Portal with Admin Approval Panel",
+  "description": "Get the latest updates on Government Jobs, Admit Cards, Results, Syllabus, and Answer Keys for 2026. Stay informed with India's fastest real-time exam portal.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

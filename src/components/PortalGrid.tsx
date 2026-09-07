@@ -204,40 +204,35 @@ export const PortalGrid: React.FC<PortalGridProps> = ({
       )}
 
       {/* 6 Box Portal Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6">
         {categories.map((cat) => {
           const categoryJobs = filteredJobs.filter((job) => job.category === cat);
 
           return (
             <div
               key={cat}
-              className="bg-white border-2 border-[#b22222] rounded shadow-xs overflow-hidden flex flex-col h-[380px]"
+              className="bg-white border-2 border-[#b22222] rounded shadow-xs overflow-hidden flex flex-col h-[280px] md:h-[380px]"
             >
               {/* Portal Box Header */}
-              <div className="bg-[#b22222] text-white p-3 text-center font-black text-lg tracking-wide flex items-center justify-center gap-2 border-b-2 border-red-900 shrink-0">
+              <div className="bg-[#b22222] text-white p-2 text-center font-black text-xs md:text-lg tracking-wide flex items-center justify-center gap-1 md:gap-2 border-b-2 border-red-900 shrink-0">
                 <span>{cat}</span>
-                <span className="bg-amber-400 text-black text-xs font-black px-2 py-0.5 rounded-full">
+                <span className="bg-amber-400 text-black text-[9px] md:text-xs font-black px-1.5 md:px-2 py-0.5 rounded-full">
                   {categoryJobs.length}
                 </span>
               </div>
 
               {/* Scrollable Portal List */}
-              <div className="p-3.5 overflow-y-auto flex-1 scrollbar-thin flex flex-col justify-between">
+              <div className="p-2 md:p-3.5 overflow-y-auto flex-1 scrollbar-thin flex flex-col justify-between">
                 {categoryJobs.length === 0 ? (
-                  <div className="flex-1 flex flex-col items-center justify-center text-center p-4">
-                    <p className="text-sm font-bold text-gray-600">No updates available right now</p>
-                    <p className="text-xs text-gray-400 mt-1">
-                      {selectedState !== 'All'
-                        ? `No listings for state: ${selectedState}`
-                        : 'Awaiting live updates from scraper'}
-                    </p>
+                  <div className="flex-1 flex flex-col items-center justify-center text-center p-2">
+                    <p className="text-[10px] md:text-sm font-bold text-gray-600">No updates</p>
                   </div>
                 ) : (
-                  <ul className="space-y-2.5">
+                  <ul className="space-y-1.5 md:space-y-2.5">
                     {categoryJobs.map((job) => (
                       <li
                         key={job.id}
-                        className="border-b border-dashed border-gray-300 pb-2.5 text-sm sm:text-base leading-snug"
+                        className="border-b border-dashed border-gray-300 pb-1.5 md:pb-2.5 text-[10px] md:text-sm leading-snug"
                       >
                         <button
                           onClick={() => onSelectJob(job)}
@@ -245,12 +240,12 @@ export const PortalGrid: React.FC<PortalGridProps> = ({
                         >
                           • {job.shortTitle || job.title}
                           {job.state && job.state !== 'All India' && (
-                            <span className="inline-block bg-blue-100 text-blue-900 text-xs font-black px-1.5 py-0.5 rounded ml-1.5 border border-blue-300">
+                            <span className="inline-block bg-blue-100 text-blue-900 text-[9px] md:text-xs font-black px-1 py-0.5 rounded ml-1 border border-blue-300">
                               {job.state}
                             </span>
                           )}
                           {job.isHot && (
-                            <span className="inline-block bg-red-600 text-white text-xs font-black px-1.5 py-0.5 rounded ml-1.5 uppercase animate-pulse">
+                            <span className="inline-block bg-red-600 text-white text-[9px] md:text-xs font-black px-1 py-0.5 rounded ml-1 uppercase animate-pulse">
                               New
                             </span>
                           )}
@@ -264,22 +259,24 @@ export const PortalGrid: React.FC<PortalGridProps> = ({
           );
         })}
 
-        {/* 7th Extra Box: Certificate Verification & Important Links */}
-        <div className="bg-white border-2 border-[#b22222] rounded shadow-xs overflow-hidden flex flex-col h-[380px] lg:col-span-3">
-          <div className="bg-[#b22222] text-white p-2.5 text-center font-bold text-base tracking-wide flex items-center justify-center gap-2 border-b-2 border-red-900 shrink-0">
+        {/* 7th Extra Box */}
+        <div className="bg-white border-2 border-[#b22222] rounded shadow-xs overflow-hidden flex flex-col h-[200px] md:h-[380px] lg:col-span-3">
+          <div className="bg-[#b22222] text-white p-2 text-center font-bold text-xs md:text-base tracking-wide flex items-center justify-center gap-2 border-b-2 border-red-900 shrink-0">
             <span>Important Links & Certificate Services</span>
           </div>
 
-          <div className="p-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 overflow-y-auto">
+          <div className="p-2 md:p-4 grid grid-cols-2 md:grid-cols-3 gap-2 overflow-y-auto">
+            {/* ... link items ... */}
             <a
               href="https://uidai.gov.in"
               target="_blank"
               rel="noreferrer"
-              className="p-2 border border-gray-200 rounded hover:bg-red-50 text-[#0066cc] hover:text-[#b22222] font-semibold text-xs flex items-center justify-between"
+              className="p-1.5 md:p-2 border border-gray-200 rounded hover:bg-red-50 text-[#0066cc] hover:text-[#b22222] font-semibold text-[10px] md:text-xs flex items-center justify-between"
             >
-              <span>• Aadhar Card Download & Correction</span>
-              <ExternalLink className="w-3.5 h-3.5 text-gray-400" />
+              <span>Aadhar Card</span>
+              <ExternalLink className="w-3 h-3 text-gray-400" />
             </a>
+            {/* ... (repeat/compact other links) ... */}
             <a
               href="https://www.pan.onlineportal.tin.egov-nsdl.com"
               target="_blank"

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { JobPost } from '../types';
 import { ArrowLeft, ExternalLink, Download, Share2, Calendar, FileText, CheckCircle2, ShieldCheck, Printer } from 'lucide-react';
 
@@ -25,9 +25,36 @@ export const JobDetails: React.FC<JobDetailsProps> = ({ job, onBack }) => {
     window.print();
   };
 
+  // Salary Calculator State
+  const [basicPay, setBasicPay] = useState<number>(0);
+  const [salaryResult, setSalaryResult] = useState<number | null>(null);
+
+  const handleCalculateSalary = () => {
+    // Simple placeholder calculator logic: Basic + 40% allowances
+    if (basicPay > 0) {
+      setSalaryResult(basicPay + basicPay * 0.4);
+    }
+  };
+
+  const jobPostingSchema = {
+    "@context": "https://schema.org/",
+    "@type": "JobPosting",
+    "title": job.title,
+    "description": job.shortInfo,
+    "datePosted": job.postDate,
+    "validThrough": job.lastDate,
+    "hiringOrganization": {
+      "@type": "Organization",
+      "name": job.department
+    }
+  };
+
   return (
     <div className="max-w-5xl mx-auto px-4 py-6">
-      {/* Top Navigation */}
+      <script type="application/ld+json">
+        {JSON.stringify(jobPostingSchema)}
+      </script>
+      {/* ... Top Navigation ... */}
       <div className="flex items-center justify-between gap-2 mb-4">
         <button
           onClick={onBack}
@@ -57,6 +84,41 @@ export const JobDetails: React.FC<JobDetailsProps> = ({ job, onBack }) => {
 
       {/* Main Container Container Box */}
       <div className="bg-white border-2 border-[#b22222] rounded shadow-md overflow-hidden">
+        {/* Salary Calculator & Details (New) */}
+        <div className="p-5 border-b border-gray-200">
+           <h3 className="bg-[#b22222] text-white text-sm sm:text-base font-extrabold uppercase p-2 text-center rounded mb-3">
+              Salary Details & Calculator
+            </h3>
+            {job.salaryDetails && (
+               <p className="text-sm font-semibold mb-3">Pay Scale: {job.salaryDetails}</p>
+            )}
+            <div className="flex gap-2 items-center">
+              <input type="number" placeholder="Enter Basic Pay" className="border p-2 rounded text-sm w-40" onChange={(e) => setBasicPay(Number(e.target.value))} />
+              <button onClick={handleCalculateSalary} className="bg-red-800 text-white px-3 py-2 rounded text-sm font-bold">Calculate Approx Salary</button>
+            </div>
+            {salaryResult && <p className="mt-2 font-bold text-green-700">Approx In-Hand Salary: ₹{salaryResult.toLocaleString()}</p>}
+        </div>
+
+        {/* Syllabus (New) */}
+        {job.syllabusDetails && (
+          <div className="p-5 border-b border-gray-200">
+            <h3 className="bg-[#b22222] text-white text-sm sm:text-base font-extrabold uppercase p-2 text-center rounded mb-3">
+              Simplified Syllabus
+            </h3>
+            <p className="text-sm text-gray-800 font-medium">{job.syllabusDetails}</p>
+          </div>
+        )}
+
+        {/* Selection Process (New) */}
+        {job.selectionProcess && (
+          <div className="p-5 border-b border-gray-200">
+            <h3 className="bg-[#b22222] text-white text-sm sm:text-base font-extrabold uppercase p-2 text-center rounded mb-3">
+              Selection Process
+            </h3>
+            <p className="text-sm text-gray-800 font-medium">{job.selectionProcess}</p>
+          </div>
+        )}
+
         {/* Title Banner */}
         <div className="bg-[#b22222] text-white p-5 text-center border-b-2 border-red-900">
           <span className="text-sm font-black uppercase tracking-wider bg-amber-400 text-black px-3 py-1 rounded inline-block mb-2">
@@ -217,7 +279,9 @@ export const JobDetails: React.FC<JobDetailsProps> = ({ job, onBack }) => {
                   <tr>
                     <th className="p-3 border border-gray-300">Post Name</th>
                     <th className="p-3 border border-gray-300">Total Post</th>
-                    <th className="p-3 border border-gray-300">Eligibility Criteria</th>
+                    <th className="p-3 border border-gray-300">Eligibility</th>
+                    <th className="p-3 border border-gray-300">Gender</th>
+                    <th className="p-3 border border-gray-300">Category Wise</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200">
@@ -226,6 +290,15 @@ export const JobDetails: React.FC<JobDetailsProps> = ({ job, onBack }) => {
                       <td className="p-3 border border-gray-300 font-extrabold text-red-900">{v.postName}</td>
                       <td className="p-3 border border-gray-300 font-extrabold text-gray-900">{v.totalPosts}</td>
                       <td className="p-3 border border-gray-300 text-gray-800">{v.eligibility}</td>
+                      <td className="p-3 border border-gray-300 text-gray-800">
+                        {v.maleVacancy && <div>Male: {v.maleVacancy}</div>}
+                        {v.femaleVacancy && <div>Female: {v.femaleVacancy}</div>}
+                      </td>
+                      <td className="p-3 border border-gray-300 text-gray-800 text-xs">
+                        {v.categoryWiseSeats && Object.entries(v.categoryWiseSeats).map(([k, val]) => (
+                            <div key={k}>{k.toUpperCase()}: {val}</div>
+                        ))}
+                      </td>
                     </tr>
                   ))}
                 </tbody>
@@ -357,6 +430,23 @@ export const JobDetails: React.FC<JobDetailsProps> = ({ job, onBack }) => {
                         className="bg-gray-800 hover:bg-black text-white px-3 py-1 rounded inline-flex items-center gap-1 shadow-xs transition"
                       >
                         Official Website <ExternalLink className="w-3 h-3" />
+                      </a>
+                    </td>
+                  </tr>
+                )}
+                {job.links.officialSource && (
+                  <tr>
+                    <td className="p-2.5 border border-gray-300 text-red-800">
+                      Official Source
+                    </td>
+                    <td className="p-2.5 border border-gray-300">
+                      <a
+                        href={job.links.officialSource}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded inline-flex items-center gap-1 shadow-xs transition"
+                      >
+                        Visit Official Source <ExternalLink className="w-3 h-3" />
                       </a>
                     </td>
                   </tr>

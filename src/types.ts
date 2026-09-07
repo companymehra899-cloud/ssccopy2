@@ -55,7 +55,22 @@ export interface JobPost {
     postName: string;
     totalPosts: string;
     eligibility: string;
+    maleVacancy?: string;
+    femaleVacancy?: string;
+    categoryWiseSeats?: {
+        gen?: string;
+        obc?: string;
+        sc?: string;
+        st?: string;
+        ews?: string;
+    };
   }>;
+
+  selectionProcess?: string;
+
+  // Salary & Syllabus
+  salaryDetails?: string;
+  syllabusDetails?: string;
 
   // Important Links
   links: {
@@ -66,6 +81,7 @@ export interface JobPost {
     downloadResult?: string;
     downloadAnswerKey?: string;
     downloadSyllabus?: string;
+    officialSource?: string;
   };
 
   createdAt: string;
