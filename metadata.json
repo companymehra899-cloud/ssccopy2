@@ -1,0 +1,6 @@
+{
+  "name": "Sarkari Portal",
+  "description": "India's No. 1 Job, Admit Card, Result, Syllabus & Exam Portal with Admin Approval Panel",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
