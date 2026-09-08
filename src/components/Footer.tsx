@@ -41,39 +41,39 @@ export const Footer: React.FC<FooterProps> = ({
 
         <div>
           <h4 className="text-white font-bold text-sm mb-2 uppercase border-b border-gray-700 pb-1">
-            Top Job Categories
+            Important Links & Certificates
           </h4>
           <ul className="space-y-2 text-gray-300 font-medium">
             <li>
               <button
-                onClick={() => onSearchTag?.('UPSC')}
+                onClick={() => onSelectCategory?.('Latest Jobs')}
                 className="hover:text-amber-300 text-left cursor-pointer transition"
               >
-                • UPSC Civil Services
+                • Download Admit Card
               </button>
             </li>
             <li>
               <button
-                onClick={() => onSearchTag?.('SSC')}
+                onClick={() => onSelectCategory?.('Result')}
                 className="hover:text-amber-300 text-left cursor-pointer transition"
               >
-                • SSC CGL & CHSL Recruitment
+                • Check Exam Results
               </button>
             </li>
             <li>
               <button
-                onClick={() => onSearchTag?.('Railway')}
+                onClick={() => onOpenTools?.()}
                 className="hover:text-amber-300 text-left cursor-pointer transition"
               >
-                • Railway RRB NTPC & Group D
+                • Caste Certificate Info
               </button>
             </li>
             <li>
               <button
-                onClick={() => onSearchTag?.('Bank')}
+                onClick={() => onOpenTools?.()}
                 className="hover:text-amber-300 text-left cursor-pointer transition"
               >
-                • Bank PO & Clerk Recruitment
+                • EWS & Income Certificate
               </button>
             </li>
           </ul>

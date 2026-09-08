@@ -118,14 +118,14 @@ export const Header: React.FC<HeaderProps> = ({
 
       {/* Navigation Category Bar - Compact */}
       <nav className="bg-[#8b0000] border-t border-red-900 overflow-x-auto scrollbar-none">
-        <div className="max-w-7xl mx-auto flex items-center justify-center md:justify-start gap-1 p-1 font-bold">
+        <div className="max-w-7xl mx-auto flex items-center justify-start gap-1 p-1 font-bold">
           {categories.map((cat) => {
             const isActive = selectedCategory === cat;
             return (
               <button
                 key={cat}
                 onClick={() => onCategorySelect(cat)}
-                className={`px-2.5 py-1 rounded text-xs sm:text-sm whitespace-nowrap transition cursor-pointer font-bold ${
+                className={`px-1.5 py-0.5 rounded text-[10px] sm:text-xs whitespace-nowrap transition cursor-pointer font-bold ${
                   isActive
                     ? 'bg-amber-400 text-black shadow-xs'
                     : 'text-white hover:bg-red-800 hover:text-amber-200'

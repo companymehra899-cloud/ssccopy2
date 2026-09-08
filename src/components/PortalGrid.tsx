@@ -193,7 +193,7 @@ export const PortalGrid: React.FC<PortalGridProps> = ({
       )}
 
       {/* 6 Box Portal Grid - Compact for Above The Fold View */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-2.5">
+      <div className="grid grid-cols-2 gap-2 sm:gap-2.5">
         {categories.map((cat) => {
           const categoryJobs = filteredJobs.filter((job) => job.category === cat);
 
@@ -248,69 +248,6 @@ export const PortalGrid: React.FC<PortalGridProps> = ({
           );
         })}
 
-        {/* 7th Extra Box - Compact */}
-        <div className="bg-white border-2 border-[#b22222] rounded shadow-xs overflow-hidden flex flex-col h-auto lg:col-span-3">
-          <div className="bg-[#b22222] text-white py-1 px-2 text-center font-bold text-sm md:text-base tracking-wide flex items-center justify-center gap-2 border-b-2 border-red-900 shrink-0">
-            <span>Important Links & Certificate Services</span>
-          </div>
-
-          <div className="p-1.5 md:p-2.5 grid grid-cols-2 md:grid-cols-3 gap-1.5 overflow-y-auto">
-            <a
-              href="https://uidai.gov.in"
-              target="_blank"
-              rel="noreferrer"
-              className="p-1.5 md:p-2 border border-gray-200 rounded hover:bg-red-50 text-[#0066cc] hover:text-[#b22222] font-semibold text-xs md:text-sm flex items-center justify-between"
-            >
-              <span>• Aadhar Card</span>
-              <ExternalLink className="w-3.5 h-3.5 text-gray-400" />
-            </a>
-            <a
-              href="https://www.pan.onlineportal.tin.egov-nsdl.com"
-              target="_blank"
-              rel="noreferrer"
-              className="p-1.5 md:p-2 border border-gray-200 rounded hover:bg-red-50 text-[#0066cc] hover:text-[#b22222] font-semibold text-xs md:text-sm flex items-center justify-between"
-            >
-              <span>• PAN Card Apply / Correction</span>
-              <ExternalLink className="w-3.5 h-3.5 text-gray-400" />
-            </a>
-            <a
-              href="https://voters.eci.gov.in"
-              target="_blank"
-              rel="noreferrer"
-              className="p-1.5 md:p-2 border border-gray-200 rounded hover:bg-red-50 text-[#0066cc] hover:text-[#b22222] font-semibold text-xs md:text-sm flex items-center justify-between"
-            >
-              <span>• Voter ID Registration</span>
-              <ExternalLink className="w-3.5 h-3.5 text-gray-400" />
-            </a>
-            <a
-              href="https://digilocker.gov.in"
-              target="_blank"
-              rel="noreferrer"
-              className="p-1.5 md:p-2 border border-gray-200 rounded hover:bg-red-50 text-[#0066cc] hover:text-[#b22222] font-semibold text-xs md:text-sm flex items-center justify-between"
-            >
-              <span>• DigiLocker Certificate</span>
-              <ExternalLink className="w-3.5 h-3.5 text-gray-400" />
-            </a>
-            <a
-              href="https://scholarships.gov.in"
-              target="_blank"
-              rel="noreferrer"
-              className="p-1.5 md:p-2 border border-gray-200 rounded hover:bg-red-50 text-[#0066cc] hover:text-[#b22222] font-semibold text-xs md:text-sm flex items-center justify-between"
-            >
-              <span>• National Scholarship (NSP)</span>
-              <ExternalLink className="w-3.5 h-3.5 text-gray-400" />
-            </a>
-            <a
-              href="https://csc.gov.in"
-              target="_blank"
-              rel="noreferrer"
-              className="p-1.5 md:p-2 border border-gray-200 rounded hover:bg-red-50 text-[#0066cc] hover:text-[#b22222] font-semibold text-xs md:text-sm flex items-center justify-between"
-            >
-              <span>• CSC Digital Seva Portal</span>
-              <ExternalLink className="w-3.5 h-3.5 text-gray-400" />
-            </a>
-          </div>
-        </div>
       </div>
     </div>
   );
