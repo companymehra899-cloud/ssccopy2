@@ -203,9 +203,9 @@ export const PortalGrid: React.FC<PortalGridProps> = ({
               className="bg-white border-2 border-[#b22222] rounded shadow-xs overflow-hidden flex flex-col h-auto"
             >
               {/* Portal Box Header */}
-              <div className="bg-[#b22222] text-white py-1 px-2 text-center font-black text-xs md:text-sm tracking-wide flex items-center justify-center gap-1.5 border-b-2 border-red-900 shrink-0">
+              <div className="bg-[#b22222] text-white py-1 px-2 text-center font-black text-sm md:text-base tracking-wide flex items-center justify-center gap-1.5 border-b-2 border-red-900 shrink-0">
                 <span>{cat}</span>
-                <span className="bg-amber-400 text-black text-[9px] md:text-[10px] font-black px-1.5 py-0.2 rounded-full">
+                <span className="bg-amber-400 text-black text-[10px] md:text-xs font-black px-1.5 py-0.2 rounded-full">
                   {categoryJobs.length}
                 </span>
               </div>
@@ -214,14 +214,14 @@ export const PortalGrid: React.FC<PortalGridProps> = ({
               <div className="p-1.5 md:p-2 overflow-y-auto scrollbar-thin">
                 {categoryJobs.length === 0 ? (
                   <div className="flex flex-col items-center justify-center text-center p-2">
-                    <p className="text-[11px] md:text-xs font-bold text-gray-500">No updates</p>
+                    <p className="text-xs md:text-sm font-bold text-gray-500">No updates</p>
                   </div>
                 ) : (
                   <ul className="space-y-1">
                     {categoryJobs.map((job) => (
                       <li
                         key={job.id}
-                        className="border-b border-dashed border-gray-200 pb-1 text-[11px] md:text-xs leading-tight"
+                        className="border-b border-dashed border-gray-200 pb-1 text-xs md:text-sm leading-tight"
                       >
                         <button
                           onClick={() => onSelectJob(job)}
@@ -229,12 +229,12 @@ export const PortalGrid: React.FC<PortalGridProps> = ({
                         >
                           • {job.shortTitle || job.title}
                           {job.state && job.state !== 'All India' && (
-                            <span className="inline-block bg-blue-100 text-blue-900 text-[8px] md:text-[9px] font-black px-1 py-0.2 rounded ml-1 border border-blue-300">
+                            <span className="inline-block bg-blue-100 text-blue-900 text-[9px] md:text-[10px] font-black px-1 py-0.2 rounded ml-1 border border-blue-300">
                               {job.state}
                             </span>
                           )}
                           {job.isHot && (
-                            <span className="inline-block bg-red-600 text-white text-[8px] md:text-[9px] font-black px-1 py-0.2 rounded ml-1 uppercase animate-pulse">
+                            <span className="inline-block bg-red-600 text-white text-[9px] md:text-[10px] font-black px-1 py-0.2 rounded ml-1 uppercase animate-pulse">
                               New
                             </span>
                           )}
@@ -250,7 +250,7 @@ export const PortalGrid: React.FC<PortalGridProps> = ({
 
         {/* 7th Extra Box - Compact */}
         <div className="bg-white border-2 border-[#b22222] rounded shadow-xs overflow-hidden flex flex-col h-auto lg:col-span-3">
-          <div className="bg-[#b22222] text-white py-1 px-2 text-center font-bold text-xs md:text-sm tracking-wide flex items-center justify-center gap-2 border-b-2 border-red-900 shrink-0">
+          <div className="bg-[#b22222] text-white py-1 px-2 text-center font-bold text-sm md:text-base tracking-wide flex items-center justify-center gap-2 border-b-2 border-red-900 shrink-0">
             <span>Important Links & Certificate Services</span>
           </div>
 
@@ -259,55 +259,55 @@ export const PortalGrid: React.FC<PortalGridProps> = ({
               href="https://uidai.gov.in"
               target="_blank"
               rel="noreferrer"
-              className="p-1 md:p-1.5 border border-gray-200 rounded hover:bg-red-50 text-[#0066cc] hover:text-[#b22222] font-semibold text-[10px] md:text-[11px] flex items-center justify-between"
+              className="p-1.5 md:p-2 border border-gray-200 rounded hover:bg-red-50 text-[#0066cc] hover:text-[#b22222] font-semibold text-xs md:text-sm flex items-center justify-between"
             >
               <span>• Aadhar Card</span>
-              <ExternalLink className="w-3 h-3 text-gray-400" />
+              <ExternalLink className="w-3.5 h-3.5 text-gray-400" />
             </a>
             <a
               href="https://www.pan.onlineportal.tin.egov-nsdl.com"
               target="_blank"
               rel="noreferrer"
-              className="p-1 md:p-1.5 border border-gray-200 rounded hover:bg-red-50 text-[#0066cc] hover:text-[#b22222] font-semibold text-[10px] md:text-[11px] flex items-center justify-between"
+              className="p-1.5 md:p-2 border border-gray-200 rounded hover:bg-red-50 text-[#0066cc] hover:text-[#b22222] font-semibold text-xs md:text-sm flex items-center justify-between"
             >
               <span>• PAN Card Apply / Correction</span>
-              <ExternalLink className="w-3 h-3 text-gray-400" />
+              <ExternalLink className="w-3.5 h-3.5 text-gray-400" />
             </a>
             <a
               href="https://voters.eci.gov.in"
               target="_blank"
               rel="noreferrer"
-              className="p-1 md:p-1.5 border border-gray-200 rounded hover:bg-red-50 text-[#0066cc] hover:text-[#b22222] font-semibold text-[10px] md:text-[11px] flex items-center justify-between"
+              className="p-1.5 md:p-2 border border-gray-200 rounded hover:bg-red-50 text-[#0066cc] hover:text-[#b22222] font-semibold text-xs md:text-sm flex items-center justify-between"
             >
               <span>• Voter ID Registration</span>
-              <ExternalLink className="w-3 h-3 text-gray-400" />
+              <ExternalLink className="w-3.5 h-3.5 text-gray-400" />
             </a>
             <a
               href="https://digilocker.gov.in"
               target="_blank"
               rel="noreferrer"
-              className="p-1 md:p-1.5 border border-gray-200 rounded hover:bg-red-50 text-[#0066cc] hover:text-[#b22222] font-semibold text-[10px] md:text-[11px] flex items-center justify-between"
+              className="p-1.5 md:p-2 border border-gray-200 rounded hover:bg-red-50 text-[#0066cc] hover:text-[#b22222] font-semibold text-xs md:text-sm flex items-center justify-between"
             >
               <span>• DigiLocker Certificate</span>
-              <ExternalLink className="w-3 h-3 text-gray-400" />
+              <ExternalLink className="w-3.5 h-3.5 text-gray-400" />
             </a>
             <a
               href="https://scholarships.gov.in"
               target="_blank"
               rel="noreferrer"
-              className="p-1 md:p-1.5 border border-gray-200 rounded hover:bg-red-50 text-[#0066cc] hover:text-[#b22222] font-semibold text-[10px] md:text-[11px] flex items-center justify-between"
+              className="p-1.5 md:p-2 border border-gray-200 rounded hover:bg-red-50 text-[#0066cc] hover:text-[#b22222] font-semibold text-xs md:text-sm flex items-center justify-between"
             >
               <span>• National Scholarship (NSP)</span>
-              <ExternalLink className="w-3 h-3 text-gray-400" />
+              <ExternalLink className="w-3.5 h-3.5 text-gray-400" />
             </a>
             <a
               href="https://csc.gov.in"
               target="_blank"
               rel="noreferrer"
-              className="p-1 md:p-1.5 border border-gray-200 rounded hover:bg-red-50 text-[#0066cc] hover:text-[#b22222] font-semibold text-[10px] md:text-[11px] flex items-center justify-between"
+              className="p-1.5 md:p-2 border border-gray-200 rounded hover:bg-red-50 text-[#0066cc] hover:text-[#b22222] font-semibold text-xs md:text-sm flex items-center justify-between"
             >
               <span>• CSC Digital Seva Portal</span>
-              <ExternalLink className="w-3 h-3 text-gray-400" />
+              <ExternalLink className="w-3.5 h-3.5 text-gray-400" />
             </a>
           </div>
         </div>
