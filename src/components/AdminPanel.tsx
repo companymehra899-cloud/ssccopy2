@@ -124,6 +124,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
       title: formData.title,
       shortTitle: formData.shortTitle || formData.title,
       category: formData.category as JobCategory,
+      state: formData.state || 'All India',
       department: formData.department || 'Government of India',
       postDate: formData.postDate || new Date().toLocaleDateString('en-GB'),
       lastDate: formData.lastDate || '',
@@ -350,6 +351,20 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                   <option value="Rajasthan">🟠 Rajasthan (RSMSSB)</option>
                   <option value="MP">🟢 MP (MPESB)</option>
                   <option value="Delhi">🔵 Delhi (DSSSB)</option>
+                  <option value="Punjab">🌾 Punjab</option>
+                  <option value="Haryana">🚜 Haryana</option>
+                  <option value="Uttarakhand">🏔️ Uttarakhand</option>
+                  <option value="Odisha">🌊 Odisha</option>
+                  <option value="Maharashtra">🦁 Maharashtra</option>
+                  <option value="Assam">🦏 Assam</option>
+                  <option value="Jharkhand">⛏️ Jharkhand</option>
+                  <option value="West Bengal">🐯 West Bengal</option>
+                  <option value="Tamil Nadu">🛕 Tamil Nadu</option>
+                  <option value="Andhra Pradesh">☀️ Andhra Pradesh</option>
+                  <option value="Jammu & Kashmir">❄️ Jammu & Kashmir</option>
+                  <option value="Karnataka">🏰 Karnataka</option>
+                  <option value="Kerala">🌴 Kerala</option>
+                  <option value="Gujarat">🪁 Gujarat</option>
                 </select>
 
                 <select
@@ -554,6 +569,36 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                   <option value="Answer Key">Answer Key</option>
                   <option value="Syllabus">Syllabus</option>
                   <option value="Admission">Admission</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-slate-300 mb-1">State / Region *</label>
+                <select
+                  value={formData.state || 'All India'}
+                  onChange={(e) => setFormData({ ...formData, state: e.target.value })}
+                  className="w-full bg-slate-900 text-white p-2 text-xs rounded border border-slate-700 focus:border-amber-400"
+                >
+                  <option value="All India">🇮🇳 All India</option>
+                  <option value="UP">🔴 UP (Uttar Pradesh)</option>
+                  <option value="Bihar">🟡 Bihar</option>
+                  <option value="Rajasthan">🟠 Rajasthan</option>
+                  <option value="MP">🟢 MP (Madhya Pradesh)</option>
+                  <option value="Delhi">🔵 Delhi</option>
+                  <option value="Punjab">🌾 Punjab</option>
+                  <option value="Haryana">🚜 Haryana</option>
+                  <option value="Uttarakhand">🏔️ Uttarakhand</option>
+                  <option value="Odisha">🌊 Odisha</option>
+                  <option value="Maharashtra">🦁 Maharashtra</option>
+                  <option value="Assam">🦏 Assam</option>
+                  <option value="Jharkhand">⛏️ Jharkhand</option>
+                  <option value="West Bengal">🐯 West Bengal</option>
+                  <option value="Tamil Nadu">🛕 Tamil Nadu</option>
+                  <option value="Andhra Pradesh">☀️ Andhra Pradesh</option>
+                  <option value="Jammu & Kashmir">❄️ Jammu & Kashmir</option>
+                  <option value="Karnataka">🏰 Karnataka</option>
+                  <option value="Kerala">🌴 Kerala</option>
+                  <option value="Gujarat">🪁 Gujarat</option>
                 </select>
               </div>
 

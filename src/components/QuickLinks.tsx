@@ -13,12 +13,25 @@ export const QuickLinks: React.FC<QuickLinksProps> = ({
 }) => {
   const states = [
     { label: '🌐 All States', value: 'All' },
-    { label: '🇮🇳 All India', value: 'All India' },
     { label: '🔴 UP Jobs', value: 'UP' },
     { label: '🟡 Bihar Jobs', value: 'Bihar' },
     { label: '🟠 Rajasthan Jobs', value: 'Rajasthan' },
     { label: '🟢 MP Jobs', value: 'MP' },
     { label: '🔵 Delhi Jobs', value: 'Delhi' },
+    { label: '🌾 Punjab Jobs', value: 'Punjab' },
+    { label: '🚜 Haryana Jobs', value: 'Haryana' },
+    { label: '🏔️ Uttarakhand Jobs', value: 'Uttarakhand' },
+    { label: '🌊 Odisha Jobs', value: 'Odisha' },
+    { label: '🦁 Maharashtra Jobs', value: 'Maharashtra' },
+    { label: '🦏 Assam Jobs', value: 'Assam' },
+    { label: '⛏️ Jharkhand Jobs', value: 'Jharkhand' },
+    { label: '🐯 West Bengal Jobs', value: 'West Bengal' },
+    { label: '🛕 Tamil Nadu Jobs', value: 'Tamil Nadu' },
+    { label: '☀️ Andhra Pradesh Jobs', value: 'Andhra Pradesh' },
+    { label: '❄️ Jammu & Kashmir Jobs', value: 'Jammu & Kashmir' },
+    { label: '🏰 Karnataka Jobs', value: 'Karnataka' },
+    { label: '🌴 Kerala Jobs', value: 'Kerala' },
+    { label: '🪁 Gujarat Jobs', value: 'Gujarat' },
   ];
 
   const quickTags = [

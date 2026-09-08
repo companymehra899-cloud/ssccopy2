@@ -30,9 +30,8 @@ export const PortalGrid: React.FC<PortalGridProps> = ({
 
     const matchesState =
       selectedState === 'All' ||
-      !job.state ||
       job.state === selectedState ||
-      (selectedState !== 'All India' && job.state === 'All India');
+      (selectedState === 'All India' && (!job.state || job.state === 'All India'));
 
     const matchesSearch =
       !searchTerm ||
