@@ -3,9 +3,10 @@ import { ShieldCheck, Info, Lock } from 'lucide-react';
 
 interface FooterProps {
   onOpenAdmin?: () => void;
+  onOpenInfo?: (page: 'about' | 'privacy' | 'terms' | 'contact') => void;
 }
 
-export const Footer: React.FC<FooterProps> = ({ onOpenAdmin }) => {
+export const Footer: React.FC<FooterProps> = ({ onOpenAdmin, onOpenInfo }) => {
   return (
     <footer className="bg-[#1a1a1a] text-gray-300 text-xs sm:text-sm mt-12 border-t-4 border-[#b22222]">
       {/* Disclaimer Strip */}
@@ -34,10 +35,10 @@ export const Footer: React.FC<FooterProps> = ({ onOpenAdmin }) => {
             Top Job Categories
           </h4>
           <ul className="space-y-2 text-gray-300 font-medium">
-            <li><a href="#" className="hover:text-amber-300">• UPSC Civil Services</a></li>
-            <li><a href="#" className="hover:text-amber-300">• SSC CGL & CHSL Recruitment</a></li>
-            <li><a href="#" className="hover:text-amber-300">• Railway RRB NTPC & Group D</a></li>
-            <li><a href="#" className="hover:text-amber-300">• Bank PO & Clerk Recruitment</a></li>
+            <li><a href="#" onClick={(e) => { e.preventDefault(); onOpenInfo?.('about'); }} className="hover:text-amber-300">• UPSC Civil Services</a></li>
+            <li><a href="#" onClick={(e) => { e.preventDefault(); onOpenInfo?.('about'); }} className="hover:text-amber-300">• SSC CGL & CHSL Recruitment</a></li>
+            <li><a href="#" onClick={(e) => { e.preventDefault(); onOpenInfo?.('about'); }} className="hover:text-amber-300">• Railway RRB NTPC & Group D</a></li>
+            <li><a href="#" onClick={(e) => { e.preventDefault(); onOpenInfo?.('about'); }} className="hover:text-amber-300">• Bank PO & Clerk Recruitment</a></li>
           </ul>
         </div>
 
@@ -46,10 +47,10 @@ export const Footer: React.FC<FooterProps> = ({ onOpenAdmin }) => {
             Student Utilities
           </h4>
           <ul className="space-y-2 text-gray-300 font-medium">
-            <li><a href="#" className="hover:text-amber-300">• Age Calculator Tool</a></li>
-            <li><a href="#" className="hover:text-amber-300">• Photo & Signature Inspector</a></li>
-            <li><a href="#" className="hover:text-amber-300">• Answer Keys & Objections</a></li>
-            <li><a href="#" className="hover:text-amber-300">• Exam Syllabus PDF Downloads</a></li>
+            <li><a href="#" onClick={(e) => { e.preventDefault(); onOpenInfo?.('contact'); }} className="hover:text-amber-300">• Age Calculator Tool</a></li>
+            <li><a href="#" onClick={(e) => { e.preventDefault(); onOpenInfo?.('contact'); }} className="hover:text-amber-300">• Photo & Signature Inspector</a></li>
+            <li><a href="#" onClick={(e) => { e.preventDefault(); onOpenInfo?.('contact'); }} className="hover:text-amber-300">• Answer Keys & Objections</a></li>
+            <li><a href="#" onClick={(e) => { e.preventDefault(); onOpenInfo?.('contact'); }} className="hover:text-amber-300">• Exam Syllabus PDF Downloads</a></li>
           </ul>
         </div>
 
@@ -58,10 +59,38 @@ export const Footer: React.FC<FooterProps> = ({ onOpenAdmin }) => {
             Important Information
           </h4>
           <ul className="space-y-2 text-gray-300 font-medium">
-            <li><a href="#" className="hover:text-amber-300">• About Us</a></li>
-            <li><a href="#" className="hover:text-amber-300">• Privacy Policy</a></li>
-            <li><a href="#" className="hover:text-amber-300">• Terms & Conditions</a></li>
-            <li><a href="#" className="hover:text-amber-300">• Contact Us</a></li>
+            <li>
+              <button
+                onClick={() => onOpenInfo?.('about')}
+                className="hover:text-amber-300 text-left transition cursor-pointer"
+              >
+                • About Us
+              </button>
+            </li>
+            <li>
+              <button
+                onClick={() => onOpenInfo?.('privacy')}
+                className="hover:text-amber-300 text-left transition cursor-pointer"
+              >
+                • Privacy Policy
+              </button>
+            </li>
+            <li>
+              <button
+                onClick={() => onOpenInfo?.('terms')}
+                className="hover:text-amber-300 text-left transition cursor-pointer"
+              >
+                • Terms & Conditions
+              </button>
+            </li>
+            <li>
+              <button
+                onClick={() => onOpenInfo?.('contact')}
+                className="hover:text-amber-300 text-left transition cursor-pointer"
+              >
+                • Contact Us
+              </button>
+            </li>
           </ul>
         </div>
       </div>

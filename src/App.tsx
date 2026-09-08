@@ -15,6 +15,7 @@ import { AdminPanel } from './components/AdminPanel';
 import { AdminLogin } from './components/AdminLogin';
 import { ToolsModal } from './components/ToolsModal';
 import { Footer } from './components/Footer';
+import { InfoModal, InfoPageType } from './components/InfoModal';
 
 export default function App() {
   const [jobs, setJobs] = useState<JobPost[]>(getStoredJobs);
@@ -27,6 +28,7 @@ export default function App() {
   const [isAdminAuthenticated, setIsAdminAuthenticated] = useState(false);
   const [adminToken, setAdminToken] = useState<string | null>(null);
   const [isToolsOpen, setIsToolsOpen] = useState(false);
+  const [infoModalPage, setInfoModalPage] = useState<InfoPageType | null>(null);
 
   const SECRET_ADMIN_PATH = '/ssc-control-panel';
   const SECRET_ADMIN_HASH = '#ssc-control-panel';
@@ -269,8 +271,13 @@ export default function App() {
       {/* CANDIDATE UTILITY TOOLS MODAL */}
       <ToolsModal isOpen={isToolsOpen} onClose={() => setIsToolsOpen(false)} />
 
+      {/* INFO MODAL (About Us, Privacy Policy, Terms & Conditions, Contact Us) */}
+      {infoModalPage && (
+        <InfoModal initialPage={infoModalPage} onClose={() => setInfoModalPage(null)} />
+      )}
+
       {/* FOOTER */}
-      <Footer />
+      <Footer onOpenInfo={(page) => setInfoModalPage(page)} />
     </div>
   );
 }
