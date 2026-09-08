@@ -28,11 +28,22 @@ export default function App() {
   const [adminToken, setAdminToken] = useState<string | null>(null);
   const [isToolsOpen, setIsToolsOpen] = useState(false);
 
+  const SECRET_ADMIN_PATH = '/ssc-control-panel';
+  const SECRET_ADMIN_HASH = '#ssc-control-panel';
+
   // Check URL path/hash on load & verify existing token
   useEffect(() => {
-    const isUrlAdmin = window.location.pathname === '/admin' || window.location.hash === '#admin';
-    if (isUrlAdmin) {
+    const path = window.location.pathname;
+    const hash = window.location.hash;
+
+    // Check if user is accessing secret path
+    const isSecretAdmin = path === SECRET_ADMIN_PATH || hash === SECRET_ADMIN_HASH;
+    if (isSecretAdmin) {
       setIsAdminOpen(true);
+    } else if (path === '/admin' || hash === '#admin') {
+      // If anyone tries /admin, redirect to home / (fake 404 / normal homepage)
+      window.history.replaceState({}, '', '/');
+      setIsAdminOpen(false);
     }
 
     const savedToken = localStorage.getItem('sarkari_admin_token') || sessionStorage.getItem('sarkari_admin_token');
@@ -55,14 +66,17 @@ export default function App() {
           }
         })
         .catch(() => {
-          // If server fails or offline, fallback token check
           setIsAdminAuthenticated(false);
         });
     }
 
     const handlePopState = () => {
-      if (window.location.pathname === '/admin' || window.location.hash === '#admin') {
+      const p = window.location.pathname;
+      const h = window.location.hash;
+      if (p === SECRET_ADMIN_PATH || h === SECRET_ADMIN_HASH) {
         setIsAdminOpen(true);
+      } else {
+        setIsAdminOpen(false);
       }
     };
 
@@ -88,11 +102,11 @@ export default function App() {
     setIsAdminOpen(nextState);
 
     if (nextState) {
-      if (window.location.pathname !== '/admin') {
-        window.history.pushState({}, '', '/admin');
+      if (window.location.pathname !== SECRET_ADMIN_PATH) {
+        window.history.pushState({}, '', SECRET_ADMIN_PATH);
       }
     } else {
-      if (window.location.pathname === '/admin' || window.location.hash === '#admin') {
+      if (window.location.pathname === SECRET_ADMIN_PATH || window.location.hash === SECRET_ADMIN_HASH || window.location.pathname === '/admin') {
         window.history.pushState({}, '', '/');
       }
     }
@@ -256,7 +270,7 @@ export default function App() {
       <ToolsModal isOpen={isToolsOpen} onClose={() => setIsToolsOpen(false)} />
 
       {/* FOOTER */}
-      <Footer onOpenAdmin={() => handleToggleAdmin(true)} />
+      <Footer />
     </div>
   );
 }

@@ -58,17 +58,13 @@ export const Header: React.FC<HeaderProps> = ({
             Candidate Tools (Age & Photo)
           </button>
 
-          {(isAdminOpen || isAdminAuthenticated) && (
+          {isAdminOpen && (
             <button
               onClick={onToggleAdmin}
-              className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded text-xs sm:text-sm font-extrabold transition cursor-pointer shadow ${
-                isAdminOpen
-                  ? 'bg-amber-400 text-black hover:bg-amber-300'
-                  : 'bg-black/40 text-amber-300 hover:bg-black/60 border border-amber-400/40'
-              }`}
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded text-xs sm:text-sm font-extrabold bg-amber-400 text-black hover:bg-amber-300 transition cursor-pointer shadow"
             >
-              <ShieldAlert className="w-4 h-4 text-amber-400" />
-              {isAdminOpen ? 'Close Admin Workspace' : 'Admin Panel'}
+              <ShieldAlert className="w-4 h-4" />
+              Close Admin Workspace
               {pendingCount > 0 && (
                 <span className="bg-red-600 text-white font-extrabold text-xs px-2 py-0.5 rounded-full animate-pulse ml-0.5">
                   {pendingCount}
