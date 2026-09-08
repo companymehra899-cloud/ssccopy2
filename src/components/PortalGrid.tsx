@@ -116,28 +116,28 @@ export const PortalGrid: React.FC<PortalGridProps> = ({
                   >
                     <div>
                       <div className="flex items-center gap-1.5 flex-wrap">
-                        <span className="text-[10px] bg-red-100 text-red-800 font-bold px-1.5 py-0.2 rounded border border-red-200">
+                        <span className="text-xs bg-red-100 text-red-800 font-bold px-2 py-0.5 rounded border border-red-200">
                           {job.category}
                         </span>
                         {job.isHot && (
-                          <span className="bg-red-600 text-white text-[9px] font-extrabold px-1.5 py-0.2 rounded animate-pulse">
+                          <span className="bg-red-600 text-white text-[10px] font-extrabold px-1.5 py-0.5 rounded animate-pulse">
                             🔥 NEW
                           </span>
                         )}
-                        <span className="text-[11px] text-gray-500 font-medium">{job.department}</span>
+                        <span className="text-xs text-gray-500 font-semibold">{job.department}</span>
                       </div>
-                      <h4 className="text-[#0066cc] group-hover:text-[#b22222] font-bold text-xs sm:text-sm mt-0.5 leading-snug">
+                      <h4 className="text-[#0066cc] group-hover:text-[#b22222] font-bold text-sm sm:text-base mt-1 leading-snug">
                         {job.title}
                       </h4>
-                      <p className="text-[11px] text-gray-600 line-clamp-1 mt-0.5">{job.shortInfo}</p>
+                      <p className="text-xs text-gray-600 line-clamp-1 mt-0.5">{job.shortInfo}</p>
                     </div>
 
-                    <div className="text-right shrink-0">
-                      <span className="text-[10px] text-gray-500 block font-medium">
+                    <div className="text-right shrink-0 mt-1 sm:mt-0">
+                      <span className="text-xs text-gray-500 block font-medium">
                         Posted: {job.postDate}
                       </span>
                       {job.lastDate && (
-                        <span className="text-[10px] text-red-600 font-bold block">
+                        <span className="text-xs text-red-600 font-bold block">
                           Last Date: {job.lastDate}
                         </span>
                       )}

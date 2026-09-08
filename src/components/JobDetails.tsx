@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { JobPost } from '../types';
 import { ArrowLeft, ExternalLink, Download, Share2, Calendar, FileText, CheckCircle2, ShieldCheck, Printer } from 'lucide-react';
 
@@ -8,6 +8,25 @@ interface JobDetailsProps {
 }
 
 export const JobDetails: React.FC<JobDetailsProps> = ({ job, onBack }) => {
+  useEffect(() => {
+    const originalTitle = document.title;
+    document.title = `${job.shortTitle || job.title} - Online Form, Eligibility, Dates | Sarkari Portal`;
+
+    // Update meta description
+    const metaDesc = document.querySelector('meta[name="description"]');
+    const originalDesc = metaDesc?.getAttribute('content') || '';
+    if (metaDesc && job.shortInfo) {
+      metaDesc.setAttribute('content', `${job.title}. ${job.shortInfo}`);
+    }
+
+    return () => {
+      document.title = originalTitle;
+      if (metaDesc && originalDesc) {
+        metaDesc.setAttribute('content', originalDesc);
+      }
+    };
+  }, [job]);
+
   const handleShare = () => {
     if (navigator.share) {
       navigator.share({
@@ -84,41 +103,6 @@ export const JobDetails: React.FC<JobDetailsProps> = ({ job, onBack }) => {
 
       {/* Main Container Container Box */}
       <div className="bg-white border-2 border-[#b22222] rounded shadow-md overflow-hidden">
-        {/* Salary Calculator & Details (New) */}
-        <div className="p-5 border-b border-gray-200">
-           <h3 className="bg-[#b22222] text-white text-sm sm:text-base font-extrabold uppercase p-2 text-center rounded mb-3">
-              Salary Details & Calculator
-            </h3>
-            {job.salaryDetails && (
-               <p className="text-sm font-semibold mb-3">Pay Scale: {job.salaryDetails}</p>
-            )}
-            <div className="flex gap-2 items-center">
-              <input type="number" placeholder="Enter Basic Pay" className="border p-2 rounded text-sm w-40" onChange={(e) => setBasicPay(Number(e.target.value))} />
-              <button onClick={handleCalculateSalary} className="bg-red-800 text-white px-3 py-2 rounded text-sm font-bold">Calculate Approx Salary</button>
-            </div>
-            {salaryResult && <p className="mt-2 font-bold text-green-700">Approx In-Hand Salary: ₹{salaryResult.toLocaleString()}</p>}
-        </div>
-
-        {/* Syllabus (New) */}
-        {job.syllabusDetails && (
-          <div className="p-5 border-b border-gray-200">
-            <h3 className="bg-[#b22222] text-white text-sm sm:text-base font-extrabold uppercase p-2 text-center rounded mb-3">
-              Simplified Syllabus
-            </h3>
-            <p className="text-sm text-gray-800 font-medium">{job.syllabusDetails}</p>
-          </div>
-        )}
-
-        {/* Selection Process (New) */}
-        {job.selectionProcess && (
-          <div className="p-5 border-b border-gray-200">
-            <h3 className="bg-[#b22222] text-white text-sm sm:text-base font-extrabold uppercase p-2 text-center rounded mb-3">
-              Selection Process
-            </h3>
-            <p className="text-sm text-gray-800 font-medium">{job.selectionProcess}</p>
-          </div>
-        )}
-
         {/* Title Banner */}
         <div className="bg-[#b22222] text-white p-5 text-center border-b-2 border-red-900">
           <span className="text-sm font-black uppercase tracking-wider bg-amber-400 text-black px-3 py-1 rounded inline-block mb-2">
@@ -306,6 +290,66 @@ export const JobDetails: React.FC<JobDetailsProps> = ({ job, onBack }) => {
             </div>
           </div>
         )}
+
+        {/* Selection Process (If Available) */}
+        {job.selectionProcess && (
+          <div className="p-5 border-b border-gray-200 bg-amber-50/30">
+            <h3 className="bg-[#b22222] text-white text-sm sm:text-base font-extrabold uppercase p-2 text-center rounded mb-3">
+              Selection Process
+            </h3>
+            <p className="text-sm sm:text-base text-gray-800 font-semibold leading-relaxed">
+              {job.selectionProcess}
+            </p>
+          </div>
+        )}
+
+        {/* Simplified Syllabus (If Available) */}
+        {job.syllabusDetails && (
+          <div className="p-5 border-b border-gray-200">
+            <h3 className="bg-[#b22222] text-white text-sm sm:text-base font-extrabold uppercase p-2 text-center rounded mb-3">
+              Exam Syllabus Overview
+            </h3>
+            <p className="text-sm sm:text-base text-gray-800 font-semibold leading-relaxed">
+              {job.syllabusDetails}
+            </p>
+          </div>
+        )}
+
+        {/* In-Hand Salary Calculator & Pay Scale */}
+        <div className="p-5 border-b border-gray-200 bg-gray-50/70">
+          <h3 className="bg-[#b22222] text-white text-sm sm:text-base font-extrabold uppercase p-2 text-center rounded mb-3">
+            💰 Pay Scale & In-Hand Salary Estimator
+          </h3>
+          {job.salaryDetails && (
+            <p className="text-sm sm:text-base font-bold text-gray-800 mb-3">
+              Pay Scale: <span className="text-red-700">{job.salaryDetails}</span>
+            </p>
+          )}
+          <div className="flex flex-wrap gap-2.5 items-center">
+            <input
+              type="number"
+              placeholder="Enter Basic Pay (e.g. 35400)"
+              className="border border-gray-300 bg-white p-2 rounded text-sm w-60 font-semibold focus:outline-none focus:border-red-700"
+              onChange={(e) => setBasicPay(Number(e.target.value))}
+            />
+            <button
+              onClick={handleCalculateSalary}
+              className="bg-red-800 hover:bg-red-900 text-white px-4 py-2 rounded text-sm font-bold shadow-xs cursor-pointer"
+            >
+              Calculate Approx Salary
+            </button>
+          </div>
+          {salaryResult && (
+            <div className="mt-3 p-3 bg-green-50 border border-green-300 rounded text-sm">
+              <p className="font-extrabold text-green-800">
+                Estimated In-Hand Monthly Salary: ₹{salaryResult.toLocaleString()}
+              </p>
+              <span className="text-xs text-gray-600">
+                (Includes standard Basic Pay + approx DA, HRA allowances minus PF deductions)
+              </span>
+            </div>
+          )}
+        </div>
 
         {/* Useful Important Links Table */}
         <div className="p-5 bg-amber-50/60">

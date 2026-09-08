@@ -4,9 +4,18 @@ import { ShieldCheck, Info, Lock } from 'lucide-react';
 interface FooterProps {
   onOpenAdmin?: () => void;
   onOpenInfo?: (page: 'about' | 'privacy' | 'terms' | 'contact') => void;
+  onOpenTools?: () => void;
+  onSelectCategory?: (category: any) => void;
+  onSearchTag?: (tag: string) => void;
 }
 
-export const Footer: React.FC<FooterProps> = ({ onOpenAdmin, onOpenInfo }) => {
+export const Footer: React.FC<FooterProps> = ({
+  onOpenAdmin,
+  onOpenInfo,
+  onOpenTools,
+  onSelectCategory,
+  onSearchTag,
+}) => {
   return (
     <footer className="bg-[#1a1a1a] text-gray-300 text-xs sm:text-sm mt-12 border-t-4 border-[#b22222]">
       {/* Disclaimer Strip */}
@@ -35,10 +44,38 @@ export const Footer: React.FC<FooterProps> = ({ onOpenAdmin, onOpenInfo }) => {
             Top Job Categories
           </h4>
           <ul className="space-y-2 text-gray-300 font-medium">
-            <li><a href="#" className="hover:text-amber-300">• UPSC Civil Services</a></li>
-            <li><a href="#" className="hover:text-amber-300">• SSC CGL & CHSL Recruitment</a></li>
-            <li><a href="#" className="hover:text-amber-300">• Railway RRB NTPC & Group D</a></li>
-            <li><a href="#" className="hover:text-amber-300">• Bank PO & Clerk Recruitment</a></li>
+            <li>
+              <button
+                onClick={() => onSearchTag?.('UPSC')}
+                className="hover:text-amber-300 text-left cursor-pointer transition"
+              >
+                • UPSC Civil Services
+              </button>
+            </li>
+            <li>
+              <button
+                onClick={() => onSearchTag?.('SSC')}
+                className="hover:text-amber-300 text-left cursor-pointer transition"
+              >
+                • SSC CGL & CHSL Recruitment
+              </button>
+            </li>
+            <li>
+              <button
+                onClick={() => onSearchTag?.('Railway')}
+                className="hover:text-amber-300 text-left cursor-pointer transition"
+              >
+                • Railway RRB NTPC & Group D
+              </button>
+            </li>
+            <li>
+              <button
+                onClick={() => onSearchTag?.('Bank')}
+                className="hover:text-amber-300 text-left cursor-pointer transition"
+              >
+                • Bank PO & Clerk Recruitment
+              </button>
+            </li>
           </ul>
         </div>
 
@@ -47,10 +84,38 @@ export const Footer: React.FC<FooterProps> = ({ onOpenAdmin, onOpenInfo }) => {
             Student Utilities
           </h4>
           <ul className="space-y-2 text-gray-300 font-medium">
-            <li><a href="#" className="hover:text-amber-300">• Age Calculator Tool</a></li>
-            <li><a href="#" className="hover:text-amber-300">• Photo & Signature Inspector</a></li>
-            <li><a href="#" className="hover:text-amber-300">• Answer Keys & Objections</a></li>
-            <li><a href="#" className="hover:text-amber-300">• Exam Syllabus PDF Downloads</a></li>
+            <li>
+              <button
+                onClick={() => onOpenTools?.()}
+                className="hover:text-amber-300 text-left cursor-pointer transition"
+              >
+                • Age Calculator Tool
+              </button>
+            </li>
+            <li>
+              <button
+                onClick={() => onOpenTools?.()}
+                className="hover:text-amber-300 text-left cursor-pointer transition"
+              >
+                • Photo & Signature Inspector
+              </button>
+            </li>
+            <li>
+              <button
+                onClick={() => onSelectCategory?.('Answer Key')}
+                className="hover:text-amber-300 text-left cursor-pointer transition"
+              >
+                • Answer Keys & Objections
+              </button>
+            </li>
+            <li>
+              <button
+                onClick={() => onSelectCategory?.('Syllabus')}
+                className="hover:text-amber-300 text-left cursor-pointer transition"
+              >
+                • Exam Syllabus PDF Downloads
+              </button>
+            </li>
           </ul>
         </div>
 

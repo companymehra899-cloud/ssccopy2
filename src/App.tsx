@@ -277,7 +277,21 @@ export default function App() {
       )}
 
       {/* FOOTER */}
-      <Footer onOpenInfo={(page) => setInfoModalPage(page)} />
+      <Footer
+        onOpenInfo={(page) => setInfoModalPage(page)}
+        onOpenTools={() => setIsToolsOpen(true)}
+        onSelectCategory={(category) => {
+          setSelectedJob(null);
+          setSelectedCategory(category);
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }}
+        onSearchTag={(tag) => {
+          setSelectedJob(null);
+          setSelectedCategory('All');
+          setSearchTerm(tag);
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }}
+      />
     </div>
   );
 }
