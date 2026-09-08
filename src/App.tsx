@@ -12,6 +12,7 @@ import { QuickLinks } from './components/QuickLinks';
 import { PortalGrid } from './components/PortalGrid';
 import { JobDetails } from './components/JobDetails';
 import { AdminPanel } from './components/AdminPanel';
+import { AdminLogin } from './components/AdminLogin';
 import { ToolsModal } from './components/ToolsModal';
 import { Footer } from './components/Footer';
 
@@ -23,7 +24,86 @@ export default function App() {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedJob, setSelectedJob] = useState<JobPost | null>(null);
   const [isAdminOpen, setIsAdminOpen] = useState(false);
+  const [isAdminAuthenticated, setIsAdminAuthenticated] = useState(false);
+  const [adminToken, setAdminToken] = useState<string | null>(null);
   const [isToolsOpen, setIsToolsOpen] = useState(false);
+
+  // Check URL path/hash on load & verify existing token
+  useEffect(() => {
+    const isUrlAdmin = window.location.pathname === '/admin' || window.location.hash === '#admin';
+    if (isUrlAdmin) {
+      setIsAdminOpen(true);
+    }
+
+    const savedToken = localStorage.getItem('sarkari_admin_token') || sessionStorage.getItem('sarkari_admin_token');
+    if (savedToken) {
+      fetch('/api/admin/verify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ token: savedToken }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.authenticated) {
+            setIsAdminAuthenticated(true);
+            setAdminToken(savedToken);
+          } else {
+            localStorage.removeItem('sarkari_admin_token');
+            sessionStorage.removeItem('sarkari_admin_token');
+            setIsAdminAuthenticated(false);
+            setAdminToken(null);
+          }
+        })
+        .catch(() => {
+          // If server fails or offline, fallback token check
+          setIsAdminAuthenticated(false);
+        });
+    }
+
+    const handlePopState = () => {
+      if (window.location.pathname === '/admin' || window.location.hash === '#admin') {
+        setIsAdminOpen(true);
+      }
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
+
+  // Update browser URL history when opening/closing Admin Panel
+  const handleToggleAdmin = (openState?: boolean) => {
+    const nextState = openState !== undefined ? openState : !isAdminOpen;
+    setIsAdminOpen(nextState);
+
+    if (nextState) {
+      if (window.location.pathname !== '/admin') {
+        window.history.pushState({}, '', '/admin');
+      }
+    } else {
+      if (window.location.pathname === '/admin' || window.location.hash === '#admin') {
+        window.history.pushState({}, '', '/');
+      }
+    }
+  };
+
+  // Logout handler
+  const handleAdminLogout = async () => {
+    if (adminToken) {
+      try {
+        await fetch('/api/admin/logout', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ token: adminToken }),
+        });
+      } catch (e) {
+        console.warn('Logout API warning:', e);
+      }
+    }
+    localStorage.removeItem('sarkari_admin_token');
+    sessionStorage.removeItem('sarkari_admin_token');
+    setIsAdminAuthenticated(false);
+    setAdminToken(null);
+  };
 
   // Fetch real-time jobs from backend API on mount
   useEffect(() => {
@@ -99,7 +179,7 @@ export default function App() {
             if (selectedJob) setSelectedJob(null);
           }}
           isAdminOpen={isAdminOpen}
-          onToggleAdmin={() => setIsAdminOpen(!isAdminOpen)}
+          onToggleAdmin={() => handleToggleAdmin()}
           onOpenTools={() => setIsToolsOpen(true)}
           pendingCount={pendingCount}
         />
@@ -121,18 +201,29 @@ export default function App() {
           }}
         />
 
-        {/* ADMIN WORKSPACE OVERLAY / VIEW */}
+        {/* ADMIN WORKSPACE PROTECTED VIEW */}
         {isAdminOpen ? (
-          <AdminPanel
-            jobs={jobs}
-            onUpdateJobStatus={handleUpdateJobStatus}
-            onBulkUpdateStatus={handleBulkUpdateStatus}
-            onDeleteJob={handleDeleteJob}
-            onAddJob={handleAddJob}
-            marqueeItems={marqueeItems}
-            onUpdateMarquee={handleUpdateMarquee}
-            onClose={() => setIsAdminOpen(false)}
-          />
+          isAdminAuthenticated ? (
+            <AdminPanel
+              jobs={jobs}
+              onUpdateJobStatus={handleUpdateJobStatus}
+              onBulkUpdateStatus={handleBulkUpdateStatus}
+              onDeleteJob={handleDeleteJob}
+              onAddJob={handleAddJob}
+              marqueeItems={marqueeItems}
+              onUpdateMarquee={handleUpdateMarquee}
+              onClose={() => handleToggleAdmin(false)}
+              onLogout={handleAdminLogout}
+            />
+          ) : (
+            <AdminLogin
+              onLoginSuccess={(token) => {
+                setAdminToken(token);
+                setIsAdminAuthenticated(true);
+              }}
+              onClose={() => handleToggleAdmin(false)}
+            />
+          )
         ) : selectedJob ? (
           /* JOB DETAILS VIEW */
           <JobDetails job={selectedJob} onBack={() => setSelectedJob(null)} />

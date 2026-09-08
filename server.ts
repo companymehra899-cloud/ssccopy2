@@ -447,6 +447,72 @@ async function startServer() {
     }
   });
 
+  // --- ADMIN AUTHENTICATION SECURITY STATE ---
+  let currentAdminPassword = process.env.ADMIN_PASSWORD || 'admin123';
+  const activeAdminSessions = new Set<string>();
+
+  // REST API Endpoint: POST /api/admin/login
+  app.post('/api/admin/login', (req, res) => {
+    const { password } = req.body;
+    if (!password) {
+      return res.status(400).json({ success: false, error: 'Password is required' });
+    }
+
+    if (password === currentAdminPassword) {
+      const token = `token-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`;
+      activeAdminSessions.add(token);
+      return res.json({
+        success: true,
+        token,
+        message: 'Admin authentication successful',
+      });
+    }
+
+    return res.status(401).json({
+      success: false,
+      error: 'Incorrect Admin Password. Access Denied!',
+    });
+  });
+
+  // REST API Endpoint: POST /api/admin/verify
+  app.post('/api/admin/verify', (req, res) => {
+    const { token } = req.body;
+    const isValid = Boolean(token && activeAdminSessions.has(token));
+    return res.json({ authenticated: isValid });
+  });
+
+  // REST API Endpoint: POST /api/admin/logout
+  app.post('/api/admin/logout', (req, res) => {
+    const { token } = req.body;
+    if (token) {
+      activeAdminSessions.delete(token);
+    }
+    return res.json({ success: true, message: 'Logged out successfully' });
+  });
+
+  // REST API Endpoint: POST /api/admin/change-password
+  app.post('/api/admin/change-password', (req, res) => {
+    const { token, currentPassword, newPassword } = req.body;
+
+    if (!token || !activeAdminSessions.has(token)) {
+      return res.status(401).json({ success: false, error: 'Unauthorized admin session' });
+    }
+
+    if (currentPassword !== currentAdminPassword) {
+      return res.status(400).json({ success: false, error: 'Current password is incorrect' });
+    }
+
+    if (!newPassword || newPassword.trim().length < 4) {
+      return res.status(400).json({ success: false, error: 'New password must be at least 4 characters long' });
+    }
+
+    currentAdminPassword = newPassword.trim();
+    return res.json({
+      success: true,
+      message: 'Admin password updated successfully! Please use your new password for future logins.',
+    });
+  });
+
   // REST API Endpoint: PUT /api/jobs/:id/status
   app.put('/api/jobs/:id/status', (req, res) => {
     const { id } = req.params;

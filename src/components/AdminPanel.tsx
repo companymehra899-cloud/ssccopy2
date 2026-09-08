@@ -14,7 +14,11 @@ import {
   Volume2,
   ListFilter,
   ShieldCheck,
-  AlertCircle
+  AlertCircle,
+  KeyRound,
+  LogOut,
+  Lock,
+  Shield
 } from 'lucide-react';
 
 interface AdminPanelProps {
@@ -26,6 +30,7 @@ interface AdminPanelProps {
   marqueeItems: MarqueeUpdate[];
   onUpdateMarquee: (items: MarqueeUpdate[]) => void;
   onClose: () => void;
+  onLogout?: () => void;
 }
 
 export const AdminPanel: React.FC<AdminPanelProps> = ({
@@ -37,13 +42,21 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
   marqueeItems,
   onUpdateMarquee,
   onClose,
+  onLogout,
 }) => {
-  const [activeTab, setActiveTab] = useState<'jobs' | 'create' | 'ai' | 'marquee' | 'scraper'>('jobs');
+  const [activeTab, setActiveTab] = useState<'jobs' | 'create' | 'ai' | 'marquee' | 'scraper' | 'security'>('jobs');
   const [selectedStatusFilter, setSelectedStatusFilter] = useState<JobStatus | 'all'>('pending');
   const [selectedCategoryFilter, setSelectedCategoryFilter] = useState<JobCategory | 'all'>('all');
   const [selectedStateFilter, setSelectedStateFilter] = useState<string>('all');
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedJobIds, setSelectedJobIds] = useState<string[]>([]);
+
+  // Password Change State
+  const [pwdCurrent, setPwdCurrent] = useState('');
+  const [pwdNew, setPwdNew] = useState('');
+  const [pwdConfirm, setPwdConfirm] = useState('');
+  const [pwdMsg, setPwdMsg] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+  const [isChangingPwd, setIsChangingPwd] = useState(false);
 
   // AI Generation State
   const [aiPrompt, setAiPrompt] = useState('');
@@ -201,6 +214,52 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
     onUpdateMarquee(marqueeItems.filter((item) => item.id !== id));
   };
 
+  // Change Admin Password
+  const handleChangePassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setPwdMsg(null);
+
+    if (pwdNew !== pwdConfirm) {
+      setPwdMsg({ type: 'error', text: 'New password and confirmation do not match!' });
+      return;
+    }
+
+    if (pwdNew.length < 4) {
+      setPwdMsg({ type: 'error', text: 'New password must be at least 4 characters long.' });
+      return;
+    }
+
+    setIsChangingPwd(true);
+    const token = localStorage.getItem('sarkari_admin_token') || sessionStorage.getItem('sarkari_admin_token') || '';
+
+    try {
+      const res = await fetch('/api/admin/change-password', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          token,
+          currentPassword: pwdCurrent,
+          newPassword: pwdNew,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (res.ok && data.success) {
+        setPwdMsg({ type: 'success', text: data.message || 'Password changed successfully!' });
+        setPwdCurrent('');
+        setPwdNew('');
+        setPwdConfirm('');
+      } else {
+        setPwdMsg({ type: 'error', text: data.error || 'Failed to change password.' });
+      }
+    } catch (err: any) {
+      setPwdMsg({ type: 'error', text: 'Network error. Could not connect to server.' });
+    } finally {
+      setIsChangingPwd(false);
+    }
+  };
+
   // Counts
   const pendingCount = jobs.filter((j) => j.status === 'pending').length;
   const approvedCount = jobs.filter((j) => j.status === 'approved').length;
@@ -223,12 +282,23 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
             </p>
           </div>
 
-          <button
-            onClick={onClose}
-            className="bg-red-600 hover:bg-red-700 text-white font-bold text-xs px-4 py-2 rounded transition cursor-pointer self-end md:self-auto"
-          >
-            ✕ Exit Admin View
-          </button>
+          <div className="flex items-center gap-2 self-end md:self-auto">
+            {onLogout && (
+              <button
+                onClick={onLogout}
+                className="bg-amber-500 hover:bg-amber-600 text-slate-950 font-extrabold text-xs px-3 py-2 rounded transition cursor-pointer flex items-center gap-1.5 shadow"
+                title="Logout from Admin Session"
+              >
+                <LogOut className="w-3.5 h-3.5" /> Logout
+              </button>
+            )}
+            <button
+              onClick={onClose}
+              className="bg-red-600 hover:bg-red-700 text-white font-bold text-xs px-4 py-2 rounded transition cursor-pointer"
+            >
+              ✕ Exit Admin View
+            </button>
+          </div>
         </div>
 
         {/* Navigation Tabs */}
@@ -285,6 +355,16 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
             }`}
           >
             🐍 Python Scraper & Ingestion API
+          </button>
+
+          <button
+            onClick={() => setActiveTab('security')}
+            className={`px-4 py-2 rounded text-xs font-bold transition flex items-center gap-1.5 cursor-pointer ${
+              activeTab === 'security' ? 'bg-amber-400 text-black' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
+            }`}
+          >
+            <KeyRound className="w-4 h-4 text-amber-400" />
+            🔑 Admin Security & Password
           </button>
         </div>
 
@@ -964,6 +1044,97 @@ def scrape_and_ingest():
                 0 * * * * /usr/bin/python3 /path/to/state_scraper.py &gt;&gt; /var/log/scraper.log 2&gt;&amp;1
               </div>
             </div>
+          </div>
+        )}
+
+        {/* TAB 6: ADMIN SECURITY & PASSWORD MANAGEMENT */}
+        {activeTab === 'security' && (
+          <div className="bg-slate-800 border border-slate-700 p-6 rounded-lg space-y-6 max-w-2xl">
+            <div>
+              <h3 className="text-lg font-bold text-amber-300 border-b border-slate-700 pb-2 flex items-center gap-2">
+                <KeyRound className="w-5 h-5 text-amber-400" />
+                Change Admin Login Password
+              </h3>
+              <p className="text-xs text-slate-300 mt-2">
+                Keep your job portal administration panel secure by setting a custom password.
+              </p>
+            </div>
+
+            {pwdMsg && (
+              <div
+                className={`p-3 rounded text-xs border ${
+                  pwdMsg.type === 'success'
+                    ? 'bg-emerald-950 border-emerald-600 text-emerald-300'
+                    : 'bg-red-950 border-red-600 text-red-300'
+                }`}
+              >
+                {pwdMsg.text}
+              </div>
+            )}
+
+            <form onSubmit={handleChangePassword} className="space-y-4">
+              <div>
+                <label className="block text-xs font-bold text-slate-300 mb-1">
+                  Current Password
+                </label>
+                <input
+                  type="password"
+                  required
+                  value={pwdCurrent}
+                  onChange={(e) => setPwdCurrent(e.target.value)}
+                  placeholder="Enter current admin password..."
+                  className="w-full bg-slate-900 text-white text-xs p-2.5 rounded border border-slate-700 focus:border-amber-400"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-slate-300 mb-1">
+                  New Password
+                </label>
+                <input
+                  type="password"
+                  required
+                  value={pwdNew}
+                  onChange={(e) => setPwdNew(e.target.value)}
+                  placeholder="Enter new password (min 4 characters)..."
+                  className="w-full bg-slate-900 text-white text-xs p-2.5 rounded border border-slate-700 focus:border-amber-400"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-slate-300 mb-1">
+                  Confirm New Password
+                </label>
+                <input
+                  type="password"
+                  required
+                  value={pwdConfirm}
+                  onChange={(e) => setPwdConfirm(e.target.value)}
+                  placeholder="Re-type new password..."
+                  className="w-full bg-slate-900 text-white text-xs p-2.5 rounded border border-slate-700 focus:border-amber-400"
+                />
+              </div>
+
+              <div className="pt-2 flex justify-between items-center">
+                <button
+                  type="submit"
+                  disabled={isChangingPwd}
+                  className="bg-amber-400 hover:bg-amber-500 disabled:opacity-50 text-slate-950 font-extrabold text-xs px-6 py-2.5 rounded shadow cursor-pointer flex items-center gap-2"
+                >
+                  {isChangingPwd ? 'Updating Password...' : '🔒 Update Admin Password'}
+                </button>
+
+                {onLogout && (
+                  <button
+                    type="button"
+                    onClick={onLogout}
+                    className="text-xs text-red-400 hover:text-red-300 underline font-semibold cursor-pointer"
+                  >
+                    Logout from Session
+                  </button>
+                )}
+              </div>
+            </form>
           </div>
         )}
       </div>
