@@ -45,20 +45,20 @@ export const QuickLinks: React.FC<QuickLinksProps> = ({
   ];
 
   return (
-    <div className="bg-gray-100 border-b border-gray-300 py-2.5 px-4 space-y-2">
-      {/* State Filter Buttons */}
-      <div className="max-w-7xl mx-auto flex items-center justify-between gap-2 overflow-x-auto scrollbar-none text-sm">
-        <span className="font-extrabold text-red-900 uppercase shrink-0 flex items-center gap-1 text-xs sm:text-sm">
+    <div className="bg-gray-100 border-b border-gray-300 py-1 px-3 space-y-1">
+      {/* State Filter Buttons - Compact */}
+      <div className="max-w-7xl mx-auto flex items-center justify-between gap-1.5 overflow-x-auto scrollbar-none text-xs">
+        <span className="font-extrabold text-red-900 uppercase shrink-0 flex items-center gap-1 text-[11px]">
           🗺️ State Filter:
         </span>
-        <div className="flex items-center gap-2 overflow-x-auto py-0.5">
+        <div className="flex items-center gap-1 overflow-x-auto py-0.5">
           {states.map((st) => {
             const isActive = selectedState === st.value;
             return (
               <button
                 key={st.value}
                 onClick={() => onSelectState(st.value)}
-                className={`font-black px-3 py-1.5 rounded transition whitespace-nowrap cursor-pointer text-xs sm:text-sm border ${
+                className={`font-bold px-2 py-0.5 rounded transition whitespace-nowrap cursor-pointer text-[11px] border ${
                   isActive
                     ? 'bg-[#b22222] text-white border-red-900 shadow-xs'
                     : 'bg-white hover:bg-red-50 text-gray-900 border-gray-300 hover:border-red-400'
@@ -71,17 +71,17 @@ export const QuickLinks: React.FC<QuickLinksProps> = ({
         </div>
       </div>
 
-      {/* Quick Search Tag Shortcuts */}
-      <div className="max-w-7xl mx-auto flex items-center justify-between gap-2 overflow-x-auto scrollbar-none text-xs pt-1 border-t border-gray-200">
-        <span className="font-extrabold text-blue-900 uppercase shrink-0 text-xs sm:text-sm">
+      {/* Quick Search Tag Shortcuts - Compact */}
+      <div className="max-w-7xl mx-auto flex items-center justify-between gap-1.5 overflow-x-auto scrollbar-none text-xs pt-0.5 border-t border-gray-200">
+        <span className="font-extrabold text-blue-900 uppercase shrink-0 text-[11px]">
           🔍 Fast Exams:
         </span>
-        <div className="flex items-center gap-2 overflow-x-auto py-0.5">
+        <div className="flex items-center gap-1 overflow-x-auto py-0.5">
           {quickTags.map((tag) => (
             <button
               key={tag.label}
               onClick={() => onSearchTag(tag.query)}
-              className="bg-white hover:bg-blue-50 text-blue-900 hover:text-red-700 border border-blue-300 hover:border-blue-500 font-bold px-2.5 py-1 rounded transition whitespace-nowrap cursor-pointer text-xs sm:text-sm"
+              className="bg-white hover:bg-blue-50 text-blue-900 hover:text-red-700 border border-blue-300 hover:border-blue-500 font-semibold px-2 py-0.5 rounded transition whitespace-nowrap cursor-pointer text-[11px]"
             >
               {tag.label}
             </button>
