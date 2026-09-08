@@ -72,8 +72,28 @@ export const AdminLogin: React.FC<AdminLoginProps> = ({
   };
 
   return (
-    <div className="min-h-[80vh] flex items-center justify-center p-4 bg-slate-900 font-sans">
-      <div className="w-full max-w-md bg-slate-800 border-2 border-slate-700 rounded-xl shadow-2xl overflow-hidden relative">
+    <div
+      style={{
+        background: 'rgba(0, 0, 0, 0.7)',
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        zIndex: 999,
+      }}
+      className="flex items-center justify-center p-4 font-sans"
+    >
+      <div
+        style={{
+          position: 'fixed',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          zIndex: 1000,
+        }}
+        className="w-full max-w-md bg-slate-800 border-2 border-slate-700 rounded-xl shadow-2xl overflow-hidden relative"
+      >
         {/* Top Decorative Gradient Accent Bar */}
         <div className="h-2 bg-gradient-to-r from-amber-500 via-red-600 to-amber-400" />
 
