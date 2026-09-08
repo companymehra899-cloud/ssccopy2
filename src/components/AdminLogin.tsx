@@ -98,30 +98,8 @@ export const AdminLogin: React.FC<AdminLoginProps> = ({
               <span>Restricted Access Area</span>
             </div>
             <p className="text-[11px] text-slate-400 leading-relaxed">
-              This panel is password-protected to prevent unauthorized access. Only the portal owner/administrator can log in.
+              This admin panel is confidential and password-protected. Only authorized site administrators can log in.
             </p>
-            <div className="pt-1 flex items-center justify-between border-t border-slate-800 text-[11px]">
-              <span className="text-slate-400 font-medium">
-                Default Password: <code className="bg-slate-800 text-amber-300 px-1.5 py-0.5 rounded font-mono font-bold">{DEFAULT_HINT}</code>
-              </span>
-              <button
-                type="button"
-                onClick={handleCopyHint}
-                className="text-amber-400 hover:text-amber-300 font-bold flex items-center gap-1 transition cursor-pointer"
-              >
-                {copiedHint ? (
-                  <>
-                    <Check className="w-3.5 h-3.5 text-emerald-400" />
-                    <span className="text-emerald-400">Filled!</span>
-                  </>
-                ) : (
-                  <>
-                    <Copy className="w-3.5 h-3.5" />
-                    <span>Auto Fill</span>
-                  </>
-                )}
-              </button>
-            </div>
           </div>
 
           {/* Login Form */}

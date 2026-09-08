@@ -66,8 +66,20 @@ export default function App() {
       }
     };
 
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Secret Admin Shortcut: Ctrl + Shift + A or Cmd + Shift + A
+      if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key.toLowerCase() === 'a') {
+        e.preventDefault();
+        handleToggleAdmin(true);
+      }
+    };
+
     window.addEventListener('popstate', handlePopState);
-    return () => window.removeEventListener('popstate', handlePopState);
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+      window.removeEventListener('keydown', handleKeyDown);
+    };
   }, []);
 
   // Update browser URL history when opening/closing Admin Panel
@@ -179,6 +191,7 @@ export default function App() {
             if (selectedJob) setSelectedJob(null);
           }}
           isAdminOpen={isAdminOpen}
+          isAdminAuthenticated={isAdminAuthenticated}
           onToggleAdmin={() => handleToggleAdmin()}
           onOpenTools={() => setIsToolsOpen(true)}
           pendingCount={pendingCount}
@@ -243,7 +256,7 @@ export default function App() {
       <ToolsModal isOpen={isToolsOpen} onClose={() => setIsToolsOpen(false)} />
 
       {/* FOOTER */}
-      <Footer />
+      <Footer onOpenAdmin={() => handleToggleAdmin(true)} />
     </div>
   );
 }

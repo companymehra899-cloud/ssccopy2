@@ -1,7 +1,11 @@
 import React from 'react';
-import { ShieldCheck, Info } from 'lucide-react';
+import { ShieldCheck, Info, Lock } from 'lucide-react';
 
-export const Footer: React.FC = () => {
+interface FooterProps {
+  onOpenAdmin?: () => void;
+}
+
+export const Footer: React.FC<FooterProps> = ({ onOpenAdmin }) => {
   return (
     <footer className="bg-[#1a1a1a] text-gray-300 text-xs sm:text-sm mt-12 border-t-4 border-[#b22222]">
       {/* Disclaimer Strip */}
@@ -63,8 +67,18 @@ export const Footer: React.FC = () => {
       </div>
 
       {/* Copyright Bar */}
-      <div className="bg-black py-3.5 px-4 text-center text-gray-400 text-xs sm:text-sm font-semibold border-t border-gray-900">
+      <div className="bg-black py-3.5 px-4 text-center text-gray-400 text-xs sm:text-sm font-semibold border-t border-gray-900 flex flex-wrap items-center justify-center gap-2 relative">
         <p>© 2026 Sarkari Portal. All Rights Reserved. Designed for Government Job Aspirants Across India.</p>
+        {onOpenAdmin && (
+          <button
+            onClick={onOpenAdmin}
+            title="Admin Login"
+            aria-label="Admin Login"
+            className="text-gray-600 hover:text-amber-400 transition cursor-pointer p-1 rounded"
+          >
+            <Lock className="w-3.5 h-3.5" />
+          </button>
+        )}
       </div>
     </footer>
   );
