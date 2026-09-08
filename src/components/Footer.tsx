@@ -35,10 +35,10 @@ export const Footer: React.FC<FooterProps> = ({ onOpenAdmin, onOpenInfo }) => {
             Top Job Categories
           </h4>
           <ul className="space-y-2 text-gray-300 font-medium">
-            <li><a href="#" onClick={(e) => { e.preventDefault(); onOpenInfo?.('about'); }} className="hover:text-amber-300">• UPSC Civil Services</a></li>
-            <li><a href="#" onClick={(e) => { e.preventDefault(); onOpenInfo?.('about'); }} className="hover:text-amber-300">• SSC CGL & CHSL Recruitment</a></li>
-            <li><a href="#" onClick={(e) => { e.preventDefault(); onOpenInfo?.('about'); }} className="hover:text-amber-300">• Railway RRB NTPC & Group D</a></li>
-            <li><a href="#" onClick={(e) => { e.preventDefault(); onOpenInfo?.('about'); }} className="hover:text-amber-300">• Bank PO & Clerk Recruitment</a></li>
+            <li><a href="#" className="hover:text-amber-300">• UPSC Civil Services</a></li>
+            <li><a href="#" className="hover:text-amber-300">• SSC CGL & CHSL Recruitment</a></li>
+            <li><a href="#" className="hover:text-amber-300">• Railway RRB NTPC & Group D</a></li>
+            <li><a href="#" className="hover:text-amber-300">• Bank PO & Clerk Recruitment</a></li>
           </ul>
         </div>
 
@@ -47,10 +47,10 @@ export const Footer: React.FC<FooterProps> = ({ onOpenAdmin, onOpenInfo }) => {
             Student Utilities
           </h4>
           <ul className="space-y-2 text-gray-300 font-medium">
-            <li><a href="#" onClick={(e) => { e.preventDefault(); onOpenInfo?.('contact'); }} className="hover:text-amber-300">• Age Calculator Tool</a></li>
-            <li><a href="#" onClick={(e) => { e.preventDefault(); onOpenInfo?.('contact'); }} className="hover:text-amber-300">• Photo & Signature Inspector</a></li>
-            <li><a href="#" onClick={(e) => { e.preventDefault(); onOpenInfo?.('contact'); }} className="hover:text-amber-300">• Answer Keys & Objections</a></li>
-            <li><a href="#" onClick={(e) => { e.preventDefault(); onOpenInfo?.('contact'); }} className="hover:text-amber-300">• Exam Syllabus PDF Downloads</a></li>
+            <li><a href="#" className="hover:text-amber-300">• Age Calculator Tool</a></li>
+            <li><a href="#" className="hover:text-amber-300">• Photo & Signature Inspector</a></li>
+            <li><a href="#" className="hover:text-amber-300">• Answer Keys & Objections</a></li>
+            <li><a href="#" className="hover:text-amber-300">• Exam Syllabus PDF Downloads</a></li>
           </ul>
         </div>
 
