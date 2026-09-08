@@ -200,7 +200,7 @@ export const PortalGrid: React.FC<PortalGridProps> = ({
           return (
             <div
               key={cat}
-              className="bg-white border-2 border-[#b22222] rounded shadow-xs overflow-hidden flex flex-col h-[240px] md:h-[285px]"
+              className="bg-white border-2 border-[#b22222] rounded shadow-xs overflow-hidden flex flex-col h-auto"
             >
               {/* Portal Box Header */}
               <div className="bg-[#b22222] text-white py-1 px-2 text-center font-black text-xs md:text-sm tracking-wide flex items-center justify-center gap-1.5 border-b-2 border-red-900 shrink-0">
@@ -211,9 +211,9 @@ export const PortalGrid: React.FC<PortalGridProps> = ({
               </div>
 
               {/* Scrollable Portal List */}
-              <div className="p-1.5 md:p-2 overflow-y-auto flex-1 scrollbar-thin flex flex-col justify-between">
+              <div className="p-1.5 md:p-2 overflow-y-auto scrollbar-thin">
                 {categoryJobs.length === 0 ? (
-                  <div className="flex-1 flex flex-col items-center justify-center text-center p-2">
+                  <div className="flex flex-col items-center justify-center text-center p-2">
                     <p className="text-[11px] md:text-xs font-bold text-gray-500">No updates</p>
                   </div>
                 ) : (
@@ -249,7 +249,7 @@ export const PortalGrid: React.FC<PortalGridProps> = ({
         })}
 
         {/* 7th Extra Box - Compact */}
-        <div className="bg-white border-2 border-[#b22222] rounded shadow-xs overflow-hidden flex flex-col h-[150px] md:h-[200px] lg:col-span-3">
+        <div className="bg-white border-2 border-[#b22222] rounded shadow-xs overflow-hidden flex flex-col h-auto lg:col-span-3">
           <div className="bg-[#b22222] text-white py-1 px-2 text-center font-bold text-xs md:text-sm tracking-wide flex items-center justify-center gap-2 border-b-2 border-red-900 shrink-0">
             <span>Important Links & Certificate Services</span>
           </div>
